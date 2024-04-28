@@ -17,3 +17,13 @@ jobs:
             uses: actions/setup-node@v2
             with:
               node-version: 14
+
+          - name: Push artifact
+            env:
+                NEXUS_URL: ${{ secrets.NexusUrl }}
+                NEXUS_USERNAME: ${{ secrets.NexusUsername }}
+                NEXUS_PASSWORD: ${{ secrets.NexusPassword }}
+                ARTIFACT_PATH: ${{ github.ref_name }}
+            run:
+                |
+                curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file $ARTIFACT_PATH $NEXUS_URL/repository/${{ github.event_name == 'push' && 'dev' || 'staging' }}/Day-Of-Week
