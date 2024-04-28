@@ -26,13 +26,5 @@ jobs:
           - name: Download 
             uses: actions/download-artifact@v4 
 
-
           - name: Push artifact
-        #   env:
-            # NEXUS_URL: ${{ secrets.NEXUS_URL }}
-            # NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-            # NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-            # ARTIFACT_PATH: ${{ github.ref_name }}
-            run:
-                |
-                curl --fail -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact  '${{ secrets.NEXUS_URL }}/${{ github.event_name == 'push' && 'dev' || 'staging' }}/'
+            run: curl --fail -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact  '${{ secrets.NEXUS_URL }}/${{ github.event_name == 'push' && 'dev' || 'staging' }}/'
