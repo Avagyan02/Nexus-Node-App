@@ -18,12 +18,13 @@ jobs:
             with:
               node-version: 14
 
+          - name: Build 
+            uses: actions/upload-artifact@v4
+            with:
+              path: ./
+
+          - name: Download 
+            uses: actions/download-artifact@v4 
+
           - name: Push artifact
-            env:
-                NEXUS_URL: ${{ secrets.NEXUS_URL }}
-                NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
-                NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
-                ARTIFACT_PATH: ${{ github.ref_name }}
-            run:
-                |
-                curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file $ARTIFACT_PATH $NEXUS_URL/repository/${{ github.event_name == 'push' && 'dev' || 'staging' }}/Day-Of-Week
+            run: curl -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact '${{ secrets.NEXUS_URL }}/${{ github.event_name == 'push' && 'dev' || 'staging' }}/'
