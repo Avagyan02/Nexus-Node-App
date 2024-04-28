@@ -27,4 +27,4 @@ jobs:
             uses: actions/download-artifact@v4 
 
           - name: Push artifact
-            run: curl --fail -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact '${{ secrets.NEXUS_URL }}/${{ github.event_name == 'push' && 'dev' || 'staging' }}/Day-Of-Week'
+            run: curl -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact '${{ secrets.NEXUS_URL }}/${{ github.event_name == 'push' && 'dev' || 'staging' }}/Day-Of-Week'
