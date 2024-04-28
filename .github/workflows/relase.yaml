@@ -1,4 +1,4 @@
-name: 'PreRelease'
+name: 'Release'
 
 on:
     push:
@@ -16,3 +16,14 @@ jobs:
             uses: actions/setup-node@v2
             with:
               node-version: 14
+
+          - name: Build 
+            uses: actions/upload-artifact@v4
+            with:
+              path: ./
+  
+          - name: Download 
+            uses: actions/download-artifact@v4 
+  
+          - name: Push artifact
+            run: curl -u ${{secrets.NEXUS_USERNAME}}:${{secrets.NEXUS_PASSWORD}} --upload-file artifact '${{ secrets.NEXUS_URL }}/main/'
